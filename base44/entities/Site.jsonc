@@ -1,0 +1,91 @@
+{
+  "name": "Site",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name or domain of the website/app"
+    },
+    "sitekey": {
+      "type": "string",
+      "description": "Public unique key for the site used in the client captcha widget"
+    },
+    "secret_hash": {
+      "type": "string",
+      "description": "SHA-256 hash of the site secret key for verification"
+    },
+    "secret_hint": {
+      "type": "string",
+      "description": "Masked hint of the secret key for display in dashboard"
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "free",
+        "starter",
+        "unlimited"
+      ],
+      "enumColors": [
+        "green",
+        "blue",
+        "purple"
+      ],
+      "default": "free",
+      "description": "Subscription tier governing monthly solve limits"
+    },
+    "owner_email": {
+      "type": "string",
+      "description": "Email address of the site owner"
+    },
+    "solves_this_month": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of captcha solves processed in the current calendar month"
+    }
+  },
+  "required": [
+    "name",
+    "sitekey",
+    "secret_hash",
+    "owner_email"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {},
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

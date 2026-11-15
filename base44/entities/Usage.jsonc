@@ -1,0 +1,63 @@
+{
+  "name": "Usage",
+  "type": "object",
+  "properties": {
+    "site_id": {
+      "type": "string",
+      "description": "Identifier of the site"
+    },
+    "month": {
+      "type": "string",
+      "description": "Calendar month in YYYY-MM format"
+    },
+    "solves": {
+      "type": "integer",
+      "default": 0,
+      "description": "Total successful solves recorded in this month"
+    }
+  },
+  "required": [
+    "site_id",
+    "month",
+    "solves"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {},
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
