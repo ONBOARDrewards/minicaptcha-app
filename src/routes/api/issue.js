@@ -42,7 +42,7 @@ export const Route = createFileRoute("/api/issue")({
           let site = sites?.[0];
 
           // If demo site requested and not found, auto-create a sandbox record
-          if (!site && (sitekey === "mc_demo_sandbox" || sitekey === "demo-sandbox")) {
+          if (!site && (sitekey === "mc_demo_sandbox" || sitekey === "demo-sandbox" || sitekey === "demo")) {
             const { hashSecret } = await import("@/lib/captcha.server");
             site = await base44.asServiceRole.entities.Site.create({
               name: "Public Demo Sandbox",
@@ -57,7 +57,7 @@ export const Route = createFileRoute("/api/issue")({
 
           if (!site) {
             return Response.json(
-              { error: `Site with sitekey '${sitekey}' not found` },
+              { error: "unknown_sitekey", detail: `Site with sitekey '${sitekey}' not found` },
               { status: 404, headers: corsHeaders }
             );
           }
@@ -70,7 +70,9 @@ export const Route = createFileRoute("/api/issue")({
           if (currentSolves >= limit) {
             return Response.json(
               {
-                error: `Monthly solve limit exceeded for plan '${plan}' (${currentSolves}/${limit})`,
+                // The widget switches on these codes, so keep them stable.
+                error: "quota_exceeded",
+                detail: `Monthly solve limit exceeded for plan '${plan}' (${currentSolves}/${limit})`,
                 plan,
                 current_solves: currentSolves,
                 limit,

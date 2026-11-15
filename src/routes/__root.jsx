@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/AuthContext";
 import { Base44Scripts } from "base44:document";
 import appCss from "@/index.css?url";
+import siteCss from "@/styles.css?url";
 
 export const Route = createRootRoute({
   // Per-page <title>/meta come from each route's head(); this is the shared base.
@@ -18,6 +19,14 @@ export const Route = createRootRoute({
     // No icon link: the platform adds the app's logo when serving.
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap",
+      },
+      // minicaptcha's own design system, after Tailwind so its rules win.
+      { rel: "stylesheet", href: siteCss },
     ],
   }),
   errorComponent: DefaultCatchBoundary,
